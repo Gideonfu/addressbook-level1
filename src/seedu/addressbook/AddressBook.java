@@ -556,14 +556,6 @@ public class AddressBook {
      */
     private static String executeListAllPersonsInAddressBook() {
         ArrayList<HashMap<PersonProperty, String>> toBeDisplayed = getAllPersonsInAddressBook();
-        Collections.sort(toBeDisplayed, new Comparator<HashMap<PersonProperty, String>>() {
-            @Override
-            public int compare(HashMap<PersonProperty, String> o1, HashMap<PersonProperty, String> o2) {
-                String name1 = o1.get(PersonProperty.NAME);
-                String name2 = o2.get(PersonProperty.NAME);
-                return name1.compareTo(name2);
-            }
-        });
         showToUser(toBeDisplayed);
         return getMessageForPersonsDisplayedSummary(toBeDisplayed);
     }
@@ -750,6 +742,14 @@ public class AddressBook {
      * @param filePath file for saving
      */
     private static void savePersonsToFile(ArrayList<HashMap<PersonProperty, String>> persons, String filePath) {
+        Collections.sort(persons, new Comparator<HashMap<PersonProperty, String>>() {
+            @Override
+            public int compare(HashMap<PersonProperty, String> o1, HashMap<PersonProperty, String> o2) {
+                String name1 = o1.get(PersonProperty.NAME);
+                String name2 = o2.get(PersonProperty.NAME);
+                return name1.compareTo(name2);
+            }
+        });
         final ArrayList<String> linesToWrite = encodePersonsToStrings(persons);
         try {
             Files.write(Paths.get(storageFilePath), linesToWrite);
